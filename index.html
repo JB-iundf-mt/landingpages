@@ -1,0 +1,368 @@
+<html>
+<head></head>
+<!-- Toggle Styles -->
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-right: 10px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color:rgb(243, 65, 33);
+}
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+</style>
+<body>
+<form name="ProfileForm" onsubmit="return CheckInputs();" action="https://link.opo.ch/u/register.php" method=get>
+<input type=hidden name="CID" value="790867401">
+<input type=hidden name="SID" value="<? echo $SID; ?>">
+<input type=hidden name="UID" value="<? echo $UID; ?>">
+<input type=hidden name="f" value="1422"><input type=hidden name="p" value="2"><input type=hidden name="a" value="r"><input type=hidden name="el" value="<? echo $el; ?>"><input type=hidden name="llid" value="<? echo $llid; ?>"><input type=hidden name="c" value="<? echo $c; ?>"><input type=hidden name="counted" value="<? echo $counted; ?>"><input type=hidden name="RID" value="<? echo $RID; ?>"><input type=hidden name="mailnow" value="<? echo $mailnow; ?>">Salutation:<select name="inp_46" size=1><option value=""> </option><option value="6"<? echo $inp_46=="Mx." ? " SELECTED" : ""; ?>>Mx.</option><option value="1"<? echo $inp_46=="Mr." ? " SELECTED" : ""; ?>>Mr.</option><option value="2"<? echo $inp_46=="Ms." ? " SELECTED" : ""; ?>>Ms.</option></select><br>
+First Name:<input type=text name="inp_1" maxlength=60 value="<? echo $inp_1; ?>"><br>
+Last Name:<input type=text name="inp_2" maxlength=60 value="<? echo $inp_2; ?>"><br>
+Phone:<input type=text name="inp_15" maxlength=60 value="<? echo $inp_15; ?>"><br>
+Mobile:<input type=text name="inp_37" maxlength=60 value="<? echo $inp_37; ?>"><br>
+Newsletter Rubriken:<?$arr_4050 = array("1" => "Rubrik Schreiner und Innenausbauer","2" => "Rubrik Zimmerleute","3" => "Rubrik Glas- und Metallbauer","4" => "Rubrik Schulen (Werkraumeinrichtungen)");uasort($arr_4050, "cmp"); $myinp_4050 = array();foreach($arr_4050 as $key => $value) { $pos = strpos($inp_4050[0], $value);if($pos !== false) {$myinp_4050[] = $key;$inp_4050[0] = substr($inp_4050[0],0,$pos) . substr($inp_4050[0],$pos+strlen($value),strlen($inp_4050[0])); }}?>
+<input type=checkbox name="inp_4050[]" value="1"<? echo in_array("1", $myinp_4050) ? " CHECKED" : ""; ?>>Rubrik Schreiner und Innenausbauer
+<input type=checkbox name="inp_4050[]" value="2"<? echo in_array("2", $myinp_4050) ? " CHECKED" : ""; ?>>Rubrik Zimmerleute
+<input type=checkbox name="inp_4050[]" value="3"<? echo in_array("3", $myinp_4050) ? " CHECKED" : ""; ?>>Rubrik Glas- und Metallbauer
+<input type=checkbox name="inp_4050[]" value="4"<? echo in_array("4", $myinp_4050) ? " CHECKED" : ""; ?>>Rubrik Schulen (Werkraumeinrichtungen)<br>
+Präferenz OPO Hit:<?$arr_14976 = array("2" => "Zimmerleute","3" => "Glas- und Metalbauer","4" => "Schulen (Werkraumeinrichtungen)");uasort($arr_14976, "cmp"); $myinp_14976 = array();foreach($arr_14976 as $key => $value) { $pos = strpos($inp_14976[0], $value);if($pos !== false) {$myinp_14976[] = $key;$inp_14976[0] = substr($inp_14976[0],0,$pos) . substr($inp_14976[0],$pos+strlen($value),strlen($inp_14976[0])); }}?>
+<input type=checkbox name="inp_14976[]" value="2"<? echo in_array("2", $myinp_14976) ? " CHECKED" : ""; ?>>Zimmerleute
+<input type=checkbox name="inp_14976[]" value="3"<? echo in_array("3", $myinp_14976) ? " CHECKED" : ""; ?>>Glas- und Metalbauer
+<input type=checkbox name="inp_14976[]" value="4"<? echo in_array("4", $myinp_14976) ? " CHECKED" : ""; ?>>Schulen (Werkraumeinrichtungen)<br>
+Präferenz OPO News:<?$arr_15016 = array("1" => "Schreiner und Innenausbauer");uasort($arr_15016, "cmp"); $myinp_15016 = array();foreach($arr_15016 as $key => $value) { $pos = strpos($inp_15016[0], $value);if($pos !== false) {$myinp_15016[] = $key;$inp_15016[0] = substr($inp_15016[0],0,$pos) . substr($inp_15016[0],$pos+strlen($value),strlen($inp_15016[0])); }}?>
+<input type=checkbox name="inp_15016[]" value="1"<? echo in_array("1", $myinp_15016) ? " CHECKED" : ""; ?>>Schreiner und Innenausbauer<br>
+<!-- Ursprüngliches PHP-Select-Feld (bleibt erhalten, aber versteckt) -->
+<label for="inp_14977">Präferenz Promotionen:</label>
+<select name="inp_14977" id="inp_14977" style="display: none;">
+  <option value=""></option>
+  <option value="1" <?php echo $inp_14977 == "True" ? "SELECTED" : ""; ?>>True</option>
+  <option value="2" <?php echo $inp_14977 == "False" ? "SELECTED" : ""; ?>>False</option>
+</select>
+
+<!-- Neue Toggle-Komponente -->
+<label class="switch">
+  <input type="checkbox" id="toggle_14977">
+  <span class="slider"></span>
+</label>
+<span id="toggleLabel_14977">Off</span>
+<!-- Ursprüngliches Radio-Feld, jetzt versteckt -->
+<input type="radio" name="inp_14978" value="1" id="radio_14978_1" style="display:none;" <?php if ($_POST['inp_14978'] == "1") echo "checked"; ?>>
+<input type="radio" name="inp_14978" value="2" id="radio_14978_2" style="display:none;" <?php if ($_POST['inp_14978'] == "2") echo "checked"; ?>>
+
+<!-- Neue Toggle-Komponente -->
+<label for="toggle_14978">Präferenz Events:</label>
+<label class="switch">
+  <input type="checkbox" id="toggle_14978">
+  <span class="slider"></span>
+</label>
+<span id="toggleLabel_14978">Off</span>
+<!-- Ursprüngliches Radio-Feld, jetzt versteckt -->
+<input type="radio" name="inp_6180" value="1" id="radio_6180_1" style="display:none;" <?php if ($_POST['inp_6180'] == "1") echo "checked"; ?>>
+<input type="radio" name="inp_6180" value="2" id="radio_6180_2" style="display:none;" <?php if ($_POST['inp_6180'] == "2") echo "checked"; ?>>
+
+<!-- Neue Toggle-Komponente -->
+<label for="toggle_6180">E-Mail Opt-in:</label>
+<label class="switch">
+  <input type="checkbox" id="toggle_6180">
+  <span class="slider"></span>
+</label>
+<span id="toggleLabel_6180">Off</span>
+<!-- Ursprüngliches Select-Feld, jetzt versteckt -->
+<select name="inp_1198" id="inp_1198" style="display: none;">
+  <option value=""></option>
+  <option value="1" <?php echo $inp_1198 == "True" ? "SELECTED" : ""; ?>>True</option>
+  <option value="2" <?php echo $inp_1198 == "False" ? "SELECTED" : ""; ?>>False</option>
+</select>
+
+<!-- Neue Toggle-Komponente -->
+<label for="toggle_1198">Mobile SMS Opt-In:</label>
+<label class="switch">
+  <input type="checkbox" id="toggle_1198">
+  <span class="slider"></span>
+</label>
+<span id="toggleLabel_1198">Off</span>
+<!-- Ursprüngliches Radio-Feld, jetzt versteckt -->
+<input type="radio" name="inp_14979" value="1" id="radio_14979_1" style="display:none;" <?php if ($_POST['inp_14979'] == "1") echo "checked"; ?>>
+<input type="radio" name="inp_14979" value="2" id="radio_14979_2" style="display:none;" <?php if ($_POST['inp_14979'] == "2") echo "checked"; ?>>
+
+<!-- Neue Toggle-Komponente -->
+<label for="toggle_14979">Opt-in Print:</label>
+<label class="switch">
+  <input type="checkbox" id="toggle_14979">
+  <span class="slider"></span>
+</label>
+<span id="toggleLabel_14979">Off</span>
+<?$ints = array();function cmp($a, $b) { if (strlen($a) == strlen($b)) { return 0; } return (strlen($a) > strlen($b)) ? -1 : 1;}uasort($ints, "cmp"); $myints = array();foreach($ints as $key => $value) { $pos = strpos($interest[0], $value); if($pos !== false) {$myints[] = $key;$interest[0] = substr($interest[0],0,$pos) . substr($interest[0],$pos+strlen($value),strlen($interest[0])); }}?><input aria-label='Speichern' tabindex='993' type=button onclick="javascript:SubmitIt()" name="submit1" value="Speichern"></form>
+<script language="javascript">
+<!--
+function onbeforesubmit()
+{
+return true;
+}
+//-->
+</script>
+<script language="javascript">
+<!--
+	var error;
+var form_lanuage = 'en';
+function is_46_valid(input)
+{
+	if(input == "")
+	{
+		error += "Salutation: missing data!\n";
+		return false;
+	}
+
+	return true;
+}
+function is_1_valid(input)
+{
+	if(input == "")
+	{
+		error += "First Name: missing data!\n";
+		return false;
+	}
+
+	return true;
+}
+function is_2_valid(input)
+{
+	if(input == "")
+	{
+		error += "Last Name: missing data!\n";
+		return false;
+	}
+
+	return true;
+}
+
+function CheckInputs()
+{
+	var check_ok = true;
+	error = "Wrong input!\n";
+	check_ok = (is_46_valid(document.ProfileForm.inp_46.options[document.ProfileForm.inp_46.selectedIndex].value) && check_ok);
+	check_ok = (is_1_valid(document.ProfileForm.inp_1.value) && check_ok);
+	check_ok = (is_2_valid(document.ProfileForm.inp_2.value) && check_ok);
+	if(check_ok == false)
+		alert(error);
+	return check_ok;
+}
+//-->
+</script>
+
+
+<script language="javascript">
+function SubmitIt(){
+                if(CheckInputs() == true){
+                                if(window.onbeforesubmit)
+                                                onbeforesubmit();
+                                document.ProfileForm.submit();
+                }
+}
+
+function MailIt(){
+                if(CheckInputs()){
+                                if((document.ProfileForm.subject.value=='') || (document.ProfileForm.msg.value==''))
+                                                alert('Bitte f\u00fcr Sie die Nachrichtenfelder aus!');
+                                else
+                                                document.ProfileForm.submit();
+    }
+}
+
+function FieldWithName(frm, fieldname, numofield)
+{
+    if(!numofield)
+        numofield = 0;
+    field_count = 0;
+    for(i = 0; i < frm.elements.length; ++i)
+    {
+        if(frm.elements[i].name == fieldname)
+        {
+            if(field_count == numofield)
+                return frm.elements[i];
+            else
+                field_count++;
+        }
+    }
+}
+function NumChecked(frm, fieldname)
+{
+		var count = 0;
+		for(i = 0; i < frm.elements.length; ++i)
+		{
+				if(frm.elements[i].name == fieldname && frm.elements[i].checked == true)		
+						++count;
+		}
+		return count;
+}
+function NumSel(field)
+{
+    var count = 0;
+    for(i = 0; i < field.length; ++i)
+        if(field[i].selected == true) ++count;
+    return count;
+}
+</script>
+
+<script language="javascript">
+var multiFields = new Array();
+var dateFields = new Array();
+multiFields["interest[]"] = "interest"
+multiFields["optin"] = "optin"
+var arr_interest = new Array();
+multiFields["inp_4050[]"]=4050;
+arr_4050 = new Array();
+arr_4050["Rubrik Schulen (Werkraumeinrichtungen)"] = "4";
+arr_4050["Rubrik Schreiner und Innenausbauer"] = "1";
+arr_4050["Rubrik Glas- und Metallbauer"] = "3";
+arr_4050["Rubrik Zimmerleute"] = "2";
+multiFields["inp_14976[]"]=14976;
+arr_14976 = new Array();
+arr_14976["Schulen (Werkraumeinrichtungen)"] = "4";
+arr_14976["Glas- und Metalbauer"] = "3";
+arr_14976["Zimmerleute"] = "2";
+multiFields["inp_15016[]"]=15016;
+arr_15016 = new Array();
+arr_15016["Schreiner und Innenausbauer"] = "1";
+</script><? if($alertbox != "") { echo "\r\n<script language=\"javascript\">\r\nalert(\"$alertbox\");</script>"; } ?>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // === Feld: inp_14977 (Präferenz Promotionen, <select>) ===
+  const select_14977 = document.getElementById("inp_14977");
+  const toggle_14977 = document.getElementById("toggle_14977");
+  const label_14977 = document.getElementById("toggleLabel_14977");
+
+  if (select_14977.value === "1") {
+    toggle_14977.checked = true;
+    label_14977.textContent = "On";
+  } else {
+    toggle_14977.checked = false;
+    label_14977.textContent = "Off";
+  }
+
+  toggle_14977.addEventListener("change", function () {
+    if (toggle_14977.checked) {
+      select_14977.value = "1";
+      label_14977.textContent = "On";
+    } else {
+      select_14977.value = "2";
+      label_14977.textContent = "Off";
+    }
+  });
+
+  // === Feld: inp_14978 (Präferenz Events, <radio>) ===
+  const radios_14978 = document.getElementsByName("inp_14978");
+  const toggle_14978 = document.getElementById("toggle_14978");
+  const label_14978 = document.getElementById("toggleLabel_14978");
+
+  let selected_14978 = Array.from(radios_14978).find(r => r.checked);
+  if (selected_14978 && selected_14978.value === "1") {
+    toggle_14978.checked = true;
+    label_14978.textContent = "On";
+  } else {
+    toggle_14978.checked = false;
+    label_14978.textContent = "Off";
+  }
+
+  toggle_14978.addEventListener("change", function () {
+    radios_14978.forEach(r => {
+      r.checked = toggle_14978.checked ? r.value === "1" : r.value === "2";
+    });
+    label_14978.textContent = toggle_14978.checked ? "On" : "Off";
+  });
+
+  // === Feld: inp_6180 (DOI Double Opt-In, <radio>) ===
+  const radios_6180 = document.getElementsByName("inp_6180");
+  const toggle_6180 = document.getElementById("toggle_6180");
+  const label_6180 = document.getElementById("toggleLabel_6180");
+
+  let selected_6180 = Array.from(radios_6180).find(r => r.checked);
+  if (selected_6180 && selected_6180.value === "1") {
+    toggle_6180.checked = true;
+    label_6180.textContent = "On";
+  } else {
+    toggle_6180.checked = false;
+    label_6180.textContent = "Off";
+  }
+
+  toggle_6180.addEventListener("change", function () {
+    radios_6180.forEach(r => {
+      r.checked = toggle_6180.checked ? r.value === "1" : r.value === "2";
+    });
+    label_6180.textContent = toggle_6180.checked ? "On" : "Off";
+  });
+
+  // === Feld: inp_1198 (Mobile SMS Opt-In, <select>) ===
+  const select_1198 = document.getElementById("inp_1198");
+  const toggle_1198 = document.getElementById("toggle_1198");
+  const label_1198 = document.getElementById("toggleLabel_1198");
+
+  if (select_1198.value === "1") {
+    toggle_1198.checked = true;
+    label_1198.textContent = "On";
+  } else {
+    toggle_1198.checked = false;
+    label_1198.textContent = "Off";
+  }
+
+  toggle_1198.addEventListener("change", function () {
+    select_1198.value = toggle_1198.checked ? "1" : "2";
+    label_1198.textContent = toggle_1198.checked ? "On" : "Off";
+  });
+
+  // === Feld: inp_14979 (Opt-in Print, <radio>) ===
+  const radios_14979 = document.getElementsByName("inp_14979");
+  const toggle_14979 = document.getElementById("toggle_14979");
+  const label_14979 = document.getElementById("toggleLabel_14979");
+
+  let selected_14979 = Array.from(radios_14979).find(r => r.checked);
+  if (selected_14979 && selected_14979.value === "1") {
+    toggle_14979.checked = true;
+    label_14979.textContent = "On";
+  } else {
+    toggle_14979.checked = false;
+    label_14979.textContent = "Off";
+  }
+
+  toggle_14979.addEventListener("change", function () {
+    radios_14979.forEach(r => {
+      r.checked = toggle_14979.checked ? r.value === "1" : r.value === "2";
+    });
+    label_14979.textContent = toggle_14979.checked ? "On" : "Off";
+  });
+});
+</script>
+
+</body>
+</html>
