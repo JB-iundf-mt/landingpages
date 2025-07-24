@@ -214,11 +214,27 @@ function NumSel(field)
 </script>
 <script>
 function prefillSwitches() {
-  document.getElementById("switch_promo").checked = (document.getElementById("inp_14977").value == "1");
-  document.getElementById("switch_events").checked = (document.getElementById("inp_14978").value == "1");
-  document.getElementById("switch_doi").checked = (document.getElementById("inp_6180").value == "1");
-  document.getElementById("switch_sms").checked = (document.getElementById("inp_1198").value == "1");
-  document.getElementById("switch_print").checked = (document.getElementById("inp_14979").value == "1");
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const valPromo = urlParams.get("inp_14977");
+  document.getElementById("switch_promo").checked = valPromo === "TRUE";
+  document.getElementById("inp_14977").value = valPromo === "TRUE" ? "1" : "2";
+
+  const valEvents = urlParams.get("inp_14978");
+  document.getElementById("switch_events").checked = valEvents === "TRUE";
+  document.getElementById("inp_14978").value = valEvents === "TRUE" ? "1" : "2";
+
+  const valDOI = urlParams.get("inp_6180");
+  document.getElementById("switch_doi").checked = valDOI === "TRUE";
+  document.getElementById("inp_6180").value = valDOI === "TRUE" ? "1" : "2";
+
+  const valSMS = urlParams.get("inp_1198");
+  document.getElementById("switch_sms").checked = valSMS === "TRUE";
+  document.getElementById("inp_1198").value = valSMS === "TRUE" ? "1" : "2";
+
+  const valPrint = urlParams.get("inp_14979");
+  document.getElementById("switch_print").checked = valPrint === "TRUE";
+  document.getElementById("inp_14979").value = valPrint === "TRUE" ? "1" : "2";
 }
 </script>
 <script language="javascript">
