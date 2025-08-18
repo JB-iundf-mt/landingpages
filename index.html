@@ -42,8 +42,7 @@ input:checked + .slider:before {
 }
 </style>
 </head>
-<body onload="preFill(); prefillSwitches();">
-<form name="ProfileForm" onsubmit="return CheckInputs();" action="https://link.opo.ch/u/register.php" method=get>
+<form id="ProfileForm" name="ProfileForm" onsubmit="return CheckInputs();" action="https://link.opo.ch/u/register.php" method="get">
 <input type=hidden name="CID" value="790867401"><input type=hidden name="SID" value=""><input type=hidden name="UID" value=""><input type=hidden name="f" value="1422"><input type=hidden name="p" value="2"><input type=hidden name="a" value="r"><input type=hidden name="el" value=""><input type=hidden name="llid" value=""><input type=hidden name="c" value=""><input type=hidden name="counted" value=""><input type=hidden name="RID" value=""><input type=hidden name="mailnow" value="">
 Salutation:<select name="inp_46" size=1><option value=""> </option><option value="1">Mr.</option><option value="2">Ms.</option></select><br>
 First Name:<input type=text name="inp_1" maxlength=60 value=""><br>
@@ -96,14 +95,13 @@ Präferenz OPO News:
 <input type=hidden name="inp_1198" id="inp_1198" value="">
 <input type=hidden name="inp_14979" id="inp_14979" value="">
 
-<input aria-label='Speichern' tabindex='993' type=button onclick="javascript:SubmitIt()" name="submit1" value="Speichern"></form>
+<input aria-label="Speichern" tabindex="993" type="button" onclick="SubmitIt()" name="submit1" value="Präferenzen Speichern">
 <script language="javascript">
 <!--
 function onbeforesubmit()
 {
 return true;
 }
-//-->
 </script>
 <script language="javascript">
 <!--
@@ -139,36 +137,64 @@ function is_2_valid(input)
 
 	return true;
 }
-
-function CheckInputs()
-{
-	var check_ok = true;
-	error = "Wrong input!\n";
-	check_ok = (is_46_valid(document.ProfileForm.inp_46.options[document.ProfileForm.inp_46.selectedIndex].value) && check_ok);
-	check_ok = (is_1_valid(document.ProfileForm.inp_1.value) && check_ok);
-	check_ok = (is_2_valid(document.ProfileForm.inp_2.value) && check_ok);
-	if(check_ok == false)
-		alert(error);
-	return check_ok;
-}
-//-->
 </script>
-<script language="javascript">
-function SubmitIt(){
-    // Sync Switches mit Hidden Fields
-    document.getElementById("inp_14977").value = document.getElementById("switch_promo").checked ? "1" : "2";
-    document.getElementById("inp_14978").value = document.getElementById("switch_events").checked ? "1" : "2";
-    document.getElementById("inp_6180").value = document.getElementById("switch_doi").checked ? "1" : "2";
-    document.getElementById("inp_1198").value = document.getElementById("switch_sms").checked ? "1" : "2";
-    document.getElementById("inp_14979").value = document.getElementById("switch_print").checked ? "1" : "2";
 
-    if(CheckInputs() == true){
-        if(window.onbeforesubmit)
-            onbeforesubmit();
-        document.ProfileForm.submit();
-    }
+<script>
+function getForm() {
+  return document.getElementById('ProfileForm')
+      || document.forms['ProfileForm']
+      || document.querySelector('form[name="ProfileForm"]');
 }
+</script>
 
+<script>
+function CheckInputs() {
+  var frm = getForm();
+  if (!frm) {
+    alert('Form "ProfileForm" nicht gefunden.');
+    return false;
+  }
+
+  var errorMsg = "Wrong input!\n";
+  var ok = true;
+
+  var sal = frm.elements['inp_46'];
+  var first = frm.elements['inp_1'];
+  var last = frm.elements['inp_2'];
+
+  var salVal = '';
+  if (sal && sal.tagName === 'SELECT' && sal.options && sal.selectedIndex >= 0) {
+    salVal = sal.options[sal.selectedIndex] ? sal.options[sal.selectedIndex].value : '';
+  }
+
+  if (!salVal) { errorMsg += "Salutation: missing data!\n"; ok = false; }
+  if (!first || !first.value) { errorMsg += "First Name: missing data!\n"; ok = false; }
+  if (!last || !last.value) { errorMsg += "Last Name: missing data!\n"; ok = false; }
+
+  if (!ok) alert(errorMsg);
+  return ok;
+}
+</script>
+
+<script>
+function SubmitIt(){
+  var frm = getForm();
+  if (!frm) { alert('Form "ProfileForm" nicht gefunden.'); return; }
+
+  document.getElementById("inp_14977").value = document.getElementById("switch_promo").checked ? "1" : "2";
+  document.getElementById("inp_14978").value = document.getElementById("switch_events").checked ? "1" : "2";
+  document.getElementById("inp_6180").value = document.getElementById("switch_doi").checked ? "1" : "2";
+  document.getElementById("inp_1198").value = document.getElementById("switch_sms").checked ? "1" : "2";
+  document.getElementById("inp_14979").value = document.getElementById("switch_print").checked ? "1" : "2";
+
+  if (CheckInputs()) {
+    if (window.onbeforesubmit) onbeforesubmit();
+    frm.submit();
+  }
+}
+</script>
+
+<script>
 function MailIt(){
     if(CheckInputs()){
         if((document.ProfileForm.subject.value=='') || (document.ProfileForm.msg.value==''))
@@ -177,7 +203,9 @@ function MailIt(){
             document.ProfileForm.submit();
     }
 }
+</script>
 
+<script>
 function FieldWithName(frm, fieldname, numofield)
 {
     if(!numofield)
@@ -194,6 +222,9 @@ function FieldWithName(frm, fieldname, numofield)
         }
     }
 }
+</script>
+
+<script>
 function NumChecked(frm, fieldname)
 {
 		var count = 0;
@@ -204,6 +235,9 @@ function NumChecked(frm, fieldname)
 		}
 		return count;
 }
+</script>
+
+<script>
 function NumSel(field)
 {
     var count = 0;
@@ -212,6 +246,7 @@ function NumSel(field)
     return count;
 }
 </script>
+
 <script>
 function prefillSwitches() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -269,5 +304,10 @@ arr_15016["Schreiner und Innenausbauer"] = "1";
 </script>
 
 <script language="javascript" src="https://link.opo.ch/u/nprefill.js" type="text/javascript"></script>
-</body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  preFill();
+  prefillSwitches();
+});
+</script>
 </html>
