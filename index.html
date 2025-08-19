@@ -56,49 +56,52 @@ document.addEventListener("DOMContentLoaded", () => {
 </head>
 <form id="ProfileForm" name="ProfileForm" onsubmit="return CheckInputs();" action="https://link.opo.ch/u/register.php" method="get">
 <input type=hidden name="CID" value="790867401"><input type=hidden name="SID" value=""><input type=hidden name="UID" value=""><input type=hidden name="f" value="1422"><input type=hidden name="p" value="2"><input type=hidden name="a" value="r"><input type=hidden name="el" value=""><input type=hidden name="llid" value=""><input type=hidden name="c" value=""><input type=hidden name="counted" value=""><input type=hidden name="RID" value=""><input type=hidden name="mailnow" value="">
-First Name:<input type=text name="inp_1" maxlength=60 value=""><br>
-Last Name:<input type=text name="inp_2" maxlength=60 value=""><br>
-Phone:<input type=text name="inp_15" maxlength=60 value=""><br>
-Mobile:<input type=text name="inp_37" maxlength=60 value=""><br>
+<h3>Kontaktdaten</h3>
+Vorname:<input type=text name="inp_1" maxlength=60 value=""><br>
+Nachname:<input type=text name="inp_2" maxlength=60 value=""><br>
+Telefonnummer (Direktwahl / Festnetz):<input type=text name="inp_15" maxlength=60 value=""><br>
+Telefonnummer (Mobil):<input type=text name="inp_37" maxlength=60 value=""><br>
+<h3>Marketing Präferenzen</h3>
 Newsletter Rubriken:
 <input type=checkbox name="inp_4050[]" value="1">Rubrik Schreiner und Innenausbauer
 <input type=checkbox name="inp_4050[]" value="2">Rubrik Zimmerleute
 <input type=checkbox name="inp_4050[]" value="3">Rubrik Glas- und Metallbauer
 <input type=checkbox name="inp_4050[]" value="4">Rubrik Schulen (Werkraumeinrichtungen)<br>
-Präferenz OPO Hit:
+OPO Hit (Neue Aktionen):
 <input type=checkbox name="inp_14976[]" value="2">Zimmerleute
 <input type=checkbox name="inp_14976[]" value="3">Glas- und Metalbauer
 <input type=checkbox name="inp_14976[]" value="4">Schulen (Werkraumeinrichtungen)<br>
-Präferenz OPO News:
+OPO News (Neue Produkte):
 <input type=checkbox name="inp_15016[]" value="1">Schreiner und Innenausbauer<br>
-</form>
 
 <!-- SWITCHES ersetzt ursprüngliche Felder -->
-<label>Präferenz Promotionen:</label>
+<label>Promotionen (Special Friday):</label>
 <label class="switch">
   <input type="checkbox" id="switch_promo" name="inp_15378_switch" />
   <span class="slider"></span>
 </label><br>
-<label>Präferenz Events:</label>
+<label>Events (Seminare, Webinare etc.):</label>
 <label class="switch">
   <input type="checkbox" id="switch_events" name="inp_14978_switch" />
   <span class="slider"></span>
-</label><br>
-<label>DOI - Double Opt-in:</label>
+</label><br><br>
+<h3>Bevorzugte Kommunikationskanäle</h3>
+<label>E-Mail:</label>
 <label class="switch">
   <input type="checkbox" id="switch_doi" name="inp_6180_switch" />
   <span class="slider"></span>
 </label><br>
-<label>Mobile SMS Opt-In:</label>
+<label>SMS:</label>
 <label class="switch">
   <input type="checkbox" id="switch_sms" name="inp_1198_switch" />
   <span class="slider"></span>
 </label><br>
-<label>Opt-in Print:</label>
+<label>Print (für OPO News und Hit):</label>
 <label class="switch">
   <input type="checkbox" id="switch_print" name="inp_14979_switch" />
   <span class="slider"></span>
 </label><br>
+</form>
 
 <!-- Hidden inputs zur Integration mit bestehender Logik -->
 <input type=hidden name="inp_15378" id="inp_15378" value="">
