@@ -41,10 +41,21 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 </style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const q = new URLSearchParams(window.location.search);
+  const scUid = q.get("sc_uid");  // kommt aus dem Mail-Tracking
+ 
+  if (scUid) {
+    const uidField = document.querySelector('#ProfileForm [name="UID"]');
+    if (uidField) uidField.value = scUid;
+  }
+});
+</script>
+
 </head>
 <form id="ProfileForm" name="ProfileForm" onsubmit="return CheckInputs();" action="https://link.opo.ch/u/register.php" method="get">
 <input type=hidden name="CID" value="790867401"><input type=hidden name="SID" value=""><input type=hidden name="UID" value=""><input type=hidden name="f" value="1422"><input type=hidden name="p" value="2"><input type=hidden name="a" value="r"><input type=hidden name="el" value=""><input type=hidden name="llid" value=""><input type=hidden name="c" value=""><input type=hidden name="counted" value=""><input type=hidden name="RID" value=""><input type=hidden name="mailnow" value="">
-Salutation:<select name="inp_46" size=1><option value=""> </option><option value="1">Mr.</option><option value="2">Ms.</option></select><br>
 First Name:<input type=text name="inp_1" maxlength=60 value=""><br>
 Last Name:<input type=text name="inp_2" maxlength=60 value=""><br>
 Phone:<input type=text name="inp_15" maxlength=60 value=""><br>
@@ -60,11 +71,12 @@ Präferenz OPO Hit:
 <input type=checkbox name="inp_14976[]" value="4">Schulen (Werkraumeinrichtungen)<br>
 Präferenz OPO News:
 <input type=checkbox name="inp_15016[]" value="1">Schreiner und Innenausbauer<br>
+</form>
 
 <!-- SWITCHES ersetzt ursprüngliche Felder -->
 <label>Präferenz Promotionen:</label>
 <label class="switch">
-  <input type="checkbox" id="switch_promo" name="inp_14977_switch" />
+  <input type="checkbox" id="switch_promo" name="inp_15378_switch" />
   <span class="slider"></span>
 </label><br>
 <label>Präferenz Events:</label>
@@ -89,7 +101,7 @@ Präferenz OPO News:
 </label><br>
 
 <!-- Hidden inputs zur Integration mit bestehender Logik -->
-<input type=hidden name="inp_14977" id="inp_14977" value="">
+<input type=hidden name="inp_15378" id="inp_15378" value="">
 <input type=hidden name="inp_14978" id="inp_14978" value="">
 <input type=hidden name="inp_6180" id="inp_6180" value="">
 <input type=hidden name="inp_1198" id="inp_1198" value="">
@@ -97,14 +109,14 @@ Präferenz OPO News:
 
 <input aria-label="Speichern" tabindex="993" type="button" onclick="SubmitIt()" name="submit1" value="Präferenzen Speichern">
 <script language="javascript">
-<!--
+
 function onbeforesubmit()
 {
 return true;
 }
 </script>
 <script language="javascript">
-<!--
+
 	var error;
 var form_lanuage = 'en';
 function is_46_valid(input)
@@ -158,7 +170,6 @@ function CheckInputs() {
   var errorMsg = "Wrong input!\n";
   var ok = true;
 
-  var sal = frm.elements['inp_46'];
   var first = frm.elements['inp_1'];
   var last = frm.elements['inp_2'];
 
@@ -181,7 +192,7 @@ function SubmitIt(){
   var frm = getForm();
   if (!frm) { alert('Form "ProfileForm" nicht gefunden.'); return; }
 
-  document.getElementById("inp_14977").value = document.getElementById("switch_promo").checked ? "1" : "2";
+  document.getElementById("inp_15378").value = document.getElementById("switch_promo").checked ? "1" : "2";
   document.getElementById("inp_14978").value = document.getElementById("switch_events").checked ? "1" : "2";
   document.getElementById("inp_6180").value = document.getElementById("switch_doi").checked ? "1" : "2";
   document.getElementById("inp_1198").value = document.getElementById("switch_sms").checked ? "1" : "2";
@@ -251,9 +262,9 @@ function NumSel(field)
 function prefillSwitches() {
   const urlParams = new URLSearchParams(window.location.search);
 
-  const valPromo = urlParams.get("inp_14977");
+  const valPromo = urlParams.get("inp_15378");
   document.getElementById("switch_promo").checked = valPromo === "TRUE";
-  document.getElementById("inp_14977").value = valPromo === "TRUE" ? "1" : "2";
+  document.getElementById("inp_15378").value = valPromo === "TRUE" ? "1" : "2";
 
   const valEvents = urlParams.get("inp_14978");
   document.getElementById("switch_events").checked = valEvents === "TRUE";
