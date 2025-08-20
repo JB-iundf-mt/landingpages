@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
 </head>
 <form id="ProfileForm" name="ProfileForm" onsubmit="return CheckInputs();" action="https://link.opo.ch/u/register.php" method="get">
 <input type=hidden name="CID" value="790867401"><input type=hidden name="SID" value=""><input type=hidden name="UID" value=""><input type=hidden name="f" value="1422"><input type=hidden name="p" value="2"><input type=hidden name="a" value="r"><input type=hidden name="el" value=""><input type=hidden name="llid" value=""><input type=hidden name="c" value=""><input type=hidden name="counted" value=""><input type=hidden name="RID" value=""><input type=hidden name="mailnow" value="">
+<h3>Marketing Preference Center OPO Oeschger</h3>
+<p>Wir freuen uns, dass Sie Ihre Daten aktualisieren möchten. Im unten ersichtlichen Formular können Sie die Daten zu Ihrer Person und Ihren Marketing-Präferenzen schnell und einfach anpassen.
+</p>
 <h3>Kontaktdaten</h3>
 Vorname:<input type=text name="inp_1" maxlength=60 value=""><br>
 Nachname:<input type=text name="inp_2" maxlength=60 value=""><br>
@@ -84,7 +87,7 @@ OPO News (Neue Produkte):
 <label class="switch">
   <input type="checkbox" id="switch_events" name="inp_14978_switch" />
   <span class="slider"></span>
-</label><br><br>
+</label><br>
 <h3>Bevorzugte Kommunikationskanäle</h3>
 <label>E-Mail:</label>
 <label class="switch">
@@ -101,7 +104,6 @@ OPO News (Neue Produkte):
   <input type="checkbox" id="switch_print" name="inp_14979_switch" />
   <span class="slider"></span>
 </label><br>
-</form>
 
 <!-- Hidden inputs zur Integration mit bestehender Logik -->
 <input type=hidden name="inp_15378" id="inp_15378" value="">
@@ -111,8 +113,9 @@ OPO News (Neue Produkte):
 <input type=hidden name="inp_14979" id="inp_14979" value="">
 
 <input aria-label="Speichern" tabindex="993" type="button" onclick="SubmitIt()" name="submit1" value="Präferenzen Speichern">
-<script language="javascript">
+</form>
 
+<script language="javascript">
 function onbeforesubmit()
 {
 return true;
@@ -122,16 +125,7 @@ return true;
 
 	var error;
 var form_lanuage = 'en';
-function is_46_valid(input)
-{
-	if(input == "")
-	{
-		error += "Salutation: missing data!\n";
-		return false;
-	}
 
-	return true;
-}
 function is_1_valid(input)
 {
 	if(input == "")
@@ -170,26 +164,48 @@ function CheckInputs() {
     return false;
   }
 
-  var errorMsg = "Wrong input!\n";
+  var errorMsg = "Bitte füllen sie folgende Felder aus\n";
   var ok = true;
 
   var first = frm.elements['inp_1'];
   var last = frm.elements['inp_2'];
 
-  var salVal = '';
-  if (sal && sal.tagName === 'SELECT' && sal.options && sal.selectedIndex >= 0) {
-    salVal = sal.options[sal.selectedIndex] ? sal.options[sal.selectedIndex].value : '';
-  }
-
-  if (!salVal) { errorMsg += "Salutation: missing data!\n"; ok = false; }
-  if (!first || !first.value) { errorMsg += "First Name: missing data!\n"; ok = false; }
-  if (!last || !last.value) { errorMsg += "Last Name: missing data!\n"; ok = false; }
+  if (!first || !first.value) { errorMsg += "Bitte füllen sie das Feld Vorname aus\n"; ok = false; }
+  if (!last || !last.value) { errorMsg += "Bitte füllen sie das Feld Nachname aus\n"; ok = false; }
 
   if (!ok) alert(errorMsg);
   return ok;
 }
 </script>
+<script>
+/**
+ * Baut eine Mehrfach-Checkbox-Gruppe vollständig neu:
+ * - Entfernt ALLE existierenden Inputs mit diesem Namen (auch alte Hidden o.ä.)
+ * - Fügt IMMER einen leeren Eintrag hinzu (""), um alte Werte zu neutralisieren
+ * - Fügt danach je ein Hidden für JEDE angehakte Checkbox (aktueller Zustand) hinzu
+ */
+function rebuildMultiGroupExact(form, groupName) {
+  // 1) Alte Felder entfernen
+  [...form.querySelectorAll(`input[name="${groupName}"]`)].forEach(n => n.remove());
 
+  // 2) Leeren Eintrag vorschalten (Signal "Gruppe neu setzen")
+  const clear = document.createElement('input');
+  clear.type = 'hidden';
+  clear.name = groupName;     // exakt gleich, inkl. []
+  clear.value = '';           // leerer Wert
+  form.appendChild(clear);
+
+  // 3) Aktuell angehakte Checkboxes einsammeln und anhängen
+  const checked = document.querySelectorAll(`input[type="checkbox"][name="${groupName}"]:checked`);
+  checked.forEach(cb => {
+    const h = document.createElement('input');
+    h.type = 'hidden';
+    h.name = groupName;       // gleicher Name ([])
+    h.value = cb.value;       // gewählter Wert
+    form.appendChild(h);
+  });
+}
+</script>
 <script>
 function SubmitIt(){
   var frm = getForm();
@@ -201,8 +217,16 @@ function SubmitIt(){
   document.getElementById("inp_1198").value = document.getElementById("switch_sms").checked ? "1" : "2";
   document.getElementById("inp_14979").value = document.getElementById("switch_print").checked ? "1" : "2";
 
+  // >>> NEU: Mehrfachfelder exakt neu aufbauen
+  rebuildMultiGroupExact(frm, 'inp_4050[]');   // Newsletter Rubriken
+  rebuildMultiGroupExact(frm, 'inp_14976[]');  // OPO Hit
+  rebuildMultiGroupExact(frm, 'inp_15016[]');  // OPO News
+
   if (CheckInputs()) {
     if (window.onbeforesubmit) onbeforesubmit();
+
+    // Debug optional:
+    console.log('Submitting:', frm.action + '?' + new URLSearchParams(new FormData(frm)).toString());
     frm.submit();
   }
 }
