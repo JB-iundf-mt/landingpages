@@ -206,31 +206,38 @@ function rebuildMultiGroupExact(form, groupName) {
   });
 }
 </script>
+<input type="button" value="Präferenzen Speichern" onclick="SubmitIt()">
 <script>
+const DEBUG = true; // ← zum Testen; danach wieder false
+
 function SubmitIt(){
-  var frm = getForm();
+  const frm = getForm();
   if (!frm) { alert('Form "ProfileForm" nicht gefunden.'); return; }
 
-  document.getElementById("inp_15378").value = document.getElementById("switch_promo").checked ? "1" : "2";
+  document.getElementById("inp_15378").value = document.getElementById("switch_promo").checked  ? "1" : "2";
   document.getElementById("inp_14978").value = document.getElementById("switch_events").checked ? "1" : "2";
-  document.getElementById("inp_6180").value = document.getElementById("switch_doi").checked ? "1" : "2";
-  document.getElementById("inp_1198").value = document.getElementById("switch_sms").checked ? "1" : "2";
-  document.getElementById("inp_14979").value = document.getElementById("switch_print").checked ? "1" : "2";
+  document.getElementById("inp_6180").value  = document.getElementById("switch_doi").checked    ? "1" : "2";
+  document.getElementById("inp_1198").value  = document.getElementById("switch_sms").checked    ? "1" : "2";
+  document.getElementById("inp_14979").value = document.getElementById("switch_print").checked  ? "1" : "2";
 
-  // >>> NEU: Mehrfachfelder exakt neu aufbauen
-  rebuildMultiGroupExact(frm, 'inp_4050[]');   // Newsletter Rubriken
-  rebuildMultiGroupExact(frm, 'inp_14976[]');  // OPO Hit
-  rebuildMultiGroupExact(frm, 'inp_15016[]');  // OPO News
+  rebuildMultiGroupExact(frm, 'inp_4050[]');
+  rebuildMultiGroupExact(frm, 'inp_14976[]');
+  rebuildMultiGroupExact(frm, 'inp_15016[]');
 
-  if (CheckInputs()) {
-    if (window.onbeforesubmit) onbeforesubmit();
+  if (!CheckInputs()) return;
 
-    // Debug optional:
-    console.log('Submitting:', frm.action + '?' + new URLSearchParams(new FormData(frm)).toString());
-    frm.submit();
-  }
+  const fd = new FormData(frm);
+  console.group('FormData Debug');
+  for (const [k, v] of fd.entries()) console.log(k, '→', v);
+  console.groupEnd();
+  console.log('URL (preview):', frm.action + '?' + new URLSearchParams(fd).toString());
+
+  if (DEBUG) { alert('Debug-Modus: kein Submit.'); return; }
+
+  frm.submit();
 }
 </script>
+
 
 <script>
 function MailIt(){
