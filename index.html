@@ -178,35 +178,34 @@ function CheckInputs() {
 }
 </script>
 <script>
-/**
- * Baut eine Mehrfach-Checkbox-Gruppe vollständig neu:
- * - Entfernt ALLE existierenden Inputs mit diesem Namen (auch alte Hidden o.ä.)
- * - Fügt IMMER einen leeren Eintrag hinzu (""), um alte Werte zu neutralisieren
- * - Fügt danach je ein Hidden für JEDE angehakte Checkbox (aktueller Zustand) hinzu
- */
 function rebuildMultiGroupExact(form, groupName) {
-  // 1) Alte Felder entfernen
+  // 1) Alle Checkboxen im Formular mit diesem Namen finden (bevor sie gelöscht werden!)
+  const checkedValues = [...form.querySelectorAll(`input[type="checkbox"][name="${groupName}"]:checked`)]
+    .map(cb => cb.value);
+
+  // 2) Alte Felder mit diesem Namen entfernen (Checkboxen UND evtl. alte hidden)
   [...form.querySelectorAll(`input[name="${groupName}"]`)].forEach(n => n.remove());
 
-  // 2) Leeren Eintrag vorschalten (Signal "Gruppe neu setzen")
+  // 3) Immer ein leeres Hidden schicken → neutralisiert alte Werte
   const clear = document.createElement('input');
   clear.type = 'hidden';
-  clear.name = groupName;     // exakt gleich, inkl. []
-  clear.value = '';           // leerer Wert
+  clear.name = groupName;
+  clear.value = '';
   form.appendChild(clear);
 
-  // 3) Aktuell angehakte Checkboxes einsammeln und anhängen
-  const checked = document.querySelectorAll(`input[type="checkbox"][name="${groupName}"]:checked`);
-  checked.forEach(cb => {
+  // 4) Für jede angehakte Checkbox ein Hidden hinzufügen
+  checkedValues.forEach(val => {
     const h = document.createElement('input');
     h.type = 'hidden';
-    h.name = groupName;       // gleicher Name ([])
-    h.value = cb.value;       // gewählter Wert
+    h.name = groupName;
+    h.value = val;
     form.appendChild(h);
   });
 }
 </script>
+
 <input type="button" value="Präferenzen Speichern" onclick="SubmitIt()">
+
 <script>
 const DEBUG = true; // ← zum Testen; danach wieder false
 
